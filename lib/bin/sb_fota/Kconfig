@@ -1,0 +1,72 @@
+#
+# Copyright (c) 2025 Nordic Semiconductor ASA
+#
+# SPDX-License-Identifier: LicenseRef-BSD-5-Clause-Nordic
+#
+
+menuconfig SB_FOTA
+	bool "nRF91 modem FOTA library for Sofbank"
+	select NRF_MODEM_LIB
+	select AT_MONITOR
+	select AT_PARSER
+	select LTE_LINK_CONTROL
+	select LTE_LC_PSM_MODULE
+	select LTE_LC_EDRX_MODULE
+	select MODEM_JWT
+	select MODEM_INFO
+	select REBOOT
+	select SETTINGS
+	select NVS
+	select HTTP_CLIENT
+	select DOWNLOAD_CLIENT
+	select FOTA_DOWNLOAD
+	select DFU_TARGET
+	select PDN
+
+if SB_FOTA
+
+config SB_FOTA_TLS_SECURITY_TAG
+	int "Security tag for TLS"
+	default 50
+	help
+	  Security tag to be used for the server TLS connections.
+
+config SB_FOTA_JWT_SECURITY_TAG
+	int "Security tag for JWT"
+	default 50
+	help
+	  Security tag to be used for signing JWT tokens.
+
+config SB_FOTA_AUTOINIT
+	bool "Initialize carrier FOTA automatically"
+	help
+	  Initialize carrier FOTA library automatically after the modem library is initialized.
+
+choice SB_FOTA_CLIENT_ID
+	bool "Client ID to be used"
+	default SB_FOTA_ID_UUID
+	help
+	  Which Client identifier is going to be used for nRF Cloud.
+
+config SB_FOTA_ID_UUID
+	bool "Device UUID"
+
+config SB_FOTA_ID_IMEI
+	bool "IMEI"
+
+endchoice
+
+config SB_FOTA_ID_PREFIX
+	string "Prefix to append on client ID"
+	default ""
+	help
+	  This prefix+client_id is used for nrfCloud to identify the device. Same identity should
+	  be used on provisioning. Prefix is only appended on IMEI or UUID. Not appended on
+	  client ID changed on runtime API.
+
+module=SB_FOTA
+module-dep=LOG
+module-str=Modem Firmware Over the Air client
+source "${ZEPHYR_BASE}/subsys/logging/Kconfig.template.log_config"
+
+endif # SB_FOTA
