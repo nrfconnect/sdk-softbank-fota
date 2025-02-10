@@ -3,8 +3,6 @@
 #
 # SPDX-License-Identifier: LicenseRef-Nordic-5-Clause
 #
-if (NOT CONFIG_SB_FOTA_SRC)
-
 if(CONFIG_FPU)
   if(CONFIG_FP_HARDABI)
     set(float_dir hard-float)
@@ -20,7 +18,6 @@ endif()
 assert(GCC_M_CPU "GCC_M_CPU must be set to find correct lib.")
 
 set(lib_path lib/${GCC_M_CPU}/${float_dir})
-
 set(SB_FOTA_LIB_PATH ${CMAKE_CURRENT_SOURCE_DIR}/${lib_path})
 
 if(NOT EXISTS ${SB_FOTA_LIB_PATH})
@@ -38,5 +35,3 @@ zephyr_library_sources(
   os/sb_fota_os.c
   os/sb_fota_settings.c
 )
-
-endif()

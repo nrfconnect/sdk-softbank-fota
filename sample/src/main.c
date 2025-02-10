@@ -13,16 +13,16 @@
 static void modem_fota_callback(enum sb_fota_event e)
 {
 	switch(e) {
-	case FOTA_EVENT_DOWNLOADING:
+	case SB_FOTA_EVENT_DOWNLOADING:
 		printk("Modem FOTA library: Checking for update\n");
 		break;
-	case FOTA_EVENT_IDLE:
+	case SB_FOTA_EVENT_IDLE:
 		printk("Modem FOTA library: Idle\n");
 		break;
-	case FOTA_EVENT_MODEM_SHUTDOWN:
+	case SB_FOTA_EVENT_MODEM_SHUTDOWN:
 		printk("Modem FOTA library: Update downloaded. Modem will be updated.\n");
 		break;
-	case FOTA_EVENT_REBOOT_PENDING:
+	case SB_FOTA_EVENT_REBOOT_PENDING:
 		printk("Modem FOTA library: Modem updated, need to reboot\n");
 		sys_reboot(SYS_REBOOT_COLD);
 		break;

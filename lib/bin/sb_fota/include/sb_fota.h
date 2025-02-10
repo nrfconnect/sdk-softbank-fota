@@ -20,7 +20,7 @@ extern "C" {
 #endif
 
 /**
- * @brief FOTA application events.
+ * @brief SoftBank FOTA application events.
  *
  */
 enum sb_fota_event {
@@ -28,22 +28,22 @@ enum sb_fota_event {
 	 * Application should close all TLS sockets. Modem may change the operation mode
 	 * from NB-IOT to LTE-M, so any network activity is recommended to be paused.
 	 */
-	FOTA_EVENT_DOWNLOADING,
+	SB_FOTA_EVENT_DOWNLOADING,
 	/** FOTA client is now on idle.
 	 * Application may resume normal network operations.
 	 */
-	FOTA_EVENT_IDLE,
+	SB_FOTA_EVENT_IDLE,
 	/** Modem FW is going to be updated, so it is shut down.
 	 * Application cannot use the network anymore until firmware is updated and
 	 * device is booted.
 	 */
-	FOTA_EVENT_MODEM_SHUTDOWN,
+	SB_FOTA_EVENT_MODEM_SHUTDOWN,
 	/** Modem FW is now updated, reboot the device to resume network operations. */
-	FOTA_EVENT_REBOOT_PENDING,
+	SB_FOTA_EVENT_REBOOT_PENDING,
 };
 
 /**
- * @brief Modem FOTA application callback function.
+ * @brief SoftBank FOTA application callback function.
  *
  * See also @ref sb_fota_event
  *
@@ -52,7 +52,7 @@ enum sb_fota_event {
 typedef void (*sb_fota_callback_t)(enum sb_fota_event event);
 
 /**
- * @brief Initializes the modem FOTA client.
+ * @brief Initializes the SoftBank FOTA client.
  *
  * Initializes the library and registers a callback for FOTA process.
  * Subsequent calls may be used to change the callback function.
@@ -61,7 +61,7 @@ typedef void (*sb_fota_callback_t)(enum sb_fota_event event);
  * function, but might still want to use it for registering the callback.
  *
  * If there is no callback set, then the library automatically reboots the device in case of
- * FOTA_EVENT_REBOOT_PENDING event.
+ * SB_FOTA_EVENT_REBOOT_PENDING event.
  *
  * @param callback Callback for the application events or NULL for no callback.
  *
@@ -71,11 +71,11 @@ typedef void (*sb_fota_callback_t)(enum sb_fota_event event);
 int sb_fota_init(sb_fota_callback_t callback);
 
 /**
- * @brief Sets current time for the modem FOTA client and modem clock.
+ * @brief Sets current time for the SoftBank FOTA client and modem clock.
  *
- * Sets the current time used by the modem FOTA client. The given time is also
+ * Sets the current time used by the SoftBank FOTA client. The given time is also
  * set to the modem. If LTE network time is not available, current time has
- * to be provided to the modem FOTA client using this function.
+ * to be provided to the SoftBank FOTA client using this function.
  *
  * LTE network time overrides the time set using this function. If time is
  * available from the LTE network, time doesn't have to be set using this
@@ -91,16 +91,7 @@ int sb_fota_init(sb_fota_callback_t callback);
  * @retval 0 If the operation was successful.
  *           Otherwise, a (negative) error code is returned.
  */
-int sb_fota_set_clock(const char *time_str);
-
-/**
- * @brief Set client identifier for FOTA library.
- *
- * If not set, default IMEI or UUID is used depending on the Kconfig option.
- *
- * @param id Client identifier string, maximum NRF_DEVICE_UUID_STR_LEN characters.
- */
-void sb_fota_set_client_id(const char *id);
+int sb_fota_clock_set(const char *time_str);
 
 #ifdef __cplusplus
 }

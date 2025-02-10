@@ -1,4 +1,4 @@
-.. _libmodem_fota_carrier_changelog:
+.. _libsb_fota_changelog:
 
 Changelog
 #########
