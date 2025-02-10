@@ -15,12 +15,12 @@
 
 #define IMEI_LEN 15
 
-int sb_fota_cloud_sec_tag()
+int sb_fota_settings_cloud_sec_tag_get(void)
 {
 	return CONFIG_SB_FOTA_TLS_SECURITY_TAG;
 }
 
-int sb_fota_jwt_sec_tag()
+int sb_fota_settings_jwt_sec_tag_get(void)
 {
 	return CONFIG_SB_FOTA_JWT_SECURITY_TAG;
 }
@@ -63,7 +63,7 @@ static int get_imei(void)
 	return 0;
 }
 
-const char *sb_fota_get_client_id(void)
+const char *sb_fota_settings_client_id_get(void)
 {
 	bool initialized = sb_fota_client_id[0] != '\0';
 
@@ -83,7 +83,7 @@ const char *sb_fota_get_client_id(void)
 	return sb_fota_client_id;
 }
 
-void sb_fota_set_client_id(const char *id)
+void sb_fota_settings_client_id_set(const char *id)
 {
 	strncpy(sb_fota_client_id, id, sizeof(sb_fota_client_id) - 1);
 	sb_fota_client_id[sizeof(sb_fota_client_id) - 1] = '\0';

@@ -7,7 +7,7 @@
 .venv
 
 # build
-/build*
+/sample/build*
 /twister-out*
 
 __pycache__/

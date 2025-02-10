@@ -96,7 +96,7 @@ static int app_cmd_clock(const struct shell *shell, size_t argc, char **argv)
 	ARG_UNUSED(argc);
 
 	int err;
-	err = sb_fota_set_clock(argv[1]);
+	err = sb_fota_clock_set(argv[1]);
 	if (err) {
 		shell_error(shell, "clock: invalid time string");
 		return -EINVAL;

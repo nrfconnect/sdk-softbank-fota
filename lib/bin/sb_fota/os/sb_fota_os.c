@@ -22,77 +22,77 @@
 
 /* Memory management. */
 
-void *modem_fota_os_malloc(size_t size)
+void *sb_fota_os_malloc(size_t size)
 {
 	return k_malloc(size);
 }
 
-void *modem_fota_os_calloc(size_t nmemb, size_t size)
+void *sb_fota_os_calloc(size_t nmemb, size_t size)
 {
 	return k_calloc(nmemb, size);
 }
 
-void modem_fota_os_free(void *ptr)
+void sb_fota_os_free(void *ptr)
 {
 	k_free(ptr);
 }
 
 /* Timing functions. */
 
-int64_t modem_fota_os_uptime_get(void)
+int64_t sb_fota_os_uptime_get(void)
 {
 	return k_uptime_get();
 }
 
-uint32_t modem_fota_os_uptime_get_32(void)
+uint32_t sb_fota_os_uptime_get_32(void)
 {
 	return k_uptime_get_32();
 }
 
-int modem_fota_os_sleep(int ms)
+int sb_fota_os_sleep(int ms)
 {
 	return k_sleep(K_MSEC(ms));
 }
 
 /* OS functions */
 
-void modem_fota_os_sys_reset(void)
+void sb_fota_os_sys_reset(void)
 {
 	sys_reboot(SYS_REBOOT_COLD);
 	CODE_UNREACHABLE;
 }
 
-uint32_t modem_fota_os_rand_get(void)
+uint32_t sb_fota_os_rand_get(void)
 {
 	return sys_rand32_get();
 }
 
 /* Semaphores */
 
-struct modem_fota_sem {
+struct sb_fota_os_sem {
 	struct k_sem sem;
 };
 
-static struct modem_fota_sem semaphores[MODEM_FOTA_N_SEMAPHORES];
+static struct sb_fota_os_sem semaphores[SB_FOTA_OS_SEMAPHORE_COUNT];
 
-struct modem_fota_sem *modem_fota_sem_alloc() {
+struct sb_fota_os_sem *sb_fota_os_sem_alloc(void) {
 	static int next_free;
 
-	if (next_free >= MODEM_FOTA_N_SEMAPHORES) {
+	if (next_free >= SB_FOTA_OS_SEMAPHORE_COUNT) {
 		return NULL;
 	}
 
-	struct modem_fota_sem *sem = &semaphores[next_free++];
+	struct sb_fota_os_sem *sem = &semaphores[next_free++];
 	k_sem_init(&sem->sem, 0, 1);
 	return sem;
 }
 
-void modem_fota_sem_give(struct modem_fota_sem *sem)
+void sb_fota_os_sem_give(struct sb_fota_os_sem *sem)
 {
 	k_sem_give(&sem->sem);
 }
 
-int modem_fota_sem_take(struct modem_fota_sem *sem, int timeout_ms)
+int sb_fota_os_sem_take(struct sb_fota_os_sem *sem, int timeout_ms)
 {
 	k_timeout_t t;
 	if (timeout_ms == 0) {
@@ -105,7 +105,7 @@ int modem_fota_sem_take(struct modem_fota_sem *sem, int timeout_ms)
 	return k_sem_take(&sem->sem, t);
 }
 
-void modem_fota_sem_reset(struct modem_fota_sem *sem)
+void sb_fota_os_sem_reset(struct sb_fota_os_sem *sem)
 {
 	k_sem_reset(&sem->sem);
 }
@@ -113,103 +113,103 @@ void modem_fota_sem_reset(struct modem_fota_sem *sem)
 /* Work queue */
 #define MY_PRIORITY 5
 
-K_THREAD_STACK_DEFINE(modem_fota_stack_area, CONFIG_MAIN_STACK_SIZE);
+K_THREAD_STACK_DEFINE(sb_fota_stack_area, CONFIG_MAIN_STACK_SIZE);
 
-static struct k_work_q modem_fota_work_q;
+static struct k_work_q sb_fota_work_q;
 static bool q_is_initialized = false;
 
-struct modem_fota_event {
+struct sb_fota_os_work {
 	struct k_work w;
 };
-struct modem_fota_delayed_event {
+struct sb_fota_os_delayed_work {
 	struct k_work_delayable dw;
 };
 
-static struct modem_fota_event events[MODEM_FOTA_N_EVENTS];
-static struct modem_fota_delayed_event delayed_events[MODEM_FOTA_N_DELAYED_EVENTS];
+static struct sb_fota_os_work works[SB_FOTA_OS_WORK_COUNT];
+static struct sb_fota_os_delayed_work delayed_works[SB_FOTA_OS_DELAYED_WORK_COUNT];
 
-struct modem_fota_event *modem_fota_event_init(void (*callback)(void *))
+struct sb_fota_os_work *sb_fota_os_work_init(void (*callback)(void *))
 {
 	static int next_free;
 
 	if (!q_is_initialized) {
-		k_work_queue_init(&modem_fota_work_q);
-		k_work_queue_start(&modem_fota_work_q, modem_fota_stack_area,
-				   K_THREAD_STACK_SIZEOF(modem_fota_stack_area), MY_PRIORITY, NULL);
-		k_thread_name_set(&modem_fota_work_q.thread, "sb_fota");
+		k_work_queue_init(&sb_fota_work_q);
+		k_work_queue_start(&sb_fota_work_q, sb_fota_stack_area,
+				   K_THREAD_STACK_SIZEOF(sb_fota_stack_area), MY_PRIORITY, NULL);
+		k_thread_name_set(&sb_fota_work_q.thread, "sb_fota");
 		q_is_initialized = true;
 	}
 
-	if (next_free >= MODEM_FOTA_N_EVENTS) {
+	if (next_free >= SB_FOTA_OS_WORK_COUNT) {
 		return NULL;
 	}
 
-	struct modem_fota_event *evt = &events[next_free++];
-	k_work_init(&evt->w, (void (*)(struct k_work *)) callback);
-	return evt;
+	struct sb_fota_os_work *work = &works[next_free++];
+	k_work_init(&work->w, (void (*)(struct k_work *)) callback);
+	return work;
 }
 
-void modem_fota_event_send(struct modem_fota_event *evt)
+void sb_fota_os_work_schedule(struct sb_fota_os_work *work)
 {
-	k_work_submit_to_queue(&modem_fota_work_q, & evt->w);
+	k_work_submit_to_queue(&sb_fota_work_q, & work->w);
 }
 
-struct modem_fota_delayed_event *modem_fota_delayed_event_init(void (*callback)(void *))
+struct sb_fota_os_delayed_work *sb_fota_os_delayed_work_init(void (*callback)(void *))
 {
 	static int next_free;
 
-	if (next_free >= MODEM_FOTA_N_DELAYED_EVENTS) {
+	if (next_free >= SB_FOTA_OS_DELAYED_WORK_COUNT) {
 		return NULL;
 	}
 
-	struct modem_fota_delayed_event *evt = &delayed_events[next_free++];
-	k_work_init_delayable(&evt->dw, (void (*)(struct k_work *)) callback);
-	return evt;
+	struct sb_fota_os_delayed_work *work = &delayed_works[next_free++];
+	k_work_init_delayable(&work->dw, (void (*)(struct k_work *)) callback);
+	return work;
 }
 
-void modem_fota_delayed_event_send(struct modem_fota_delayed_event *evt, int delay_ms)
+void sb_fota_os_delayed_work_schedule(struct sb_fota_os_delayed_work *work, int delay_ms)
 {
-	k_work_schedule_for_queue(&modem_fota_work_q, &evt->dw, K_MSEC(delay_ms));
+	k_work_schedule_for_queue(&sb_fota_work_q, &work->dw, K_MSEC(delay_ms));
 }
 
 /* Timers */
 
-struct modem_fota_timer {
+struct sb_fota_os_timer {
 	struct k_timer t;
 };
 
-struct modem_fota_timer timers[MODEM_FOTA_N_TIMERS];
+struct sb_fota_os_timer timers[SB_FOTA_OS_TIMERS];
 
-struct modem_fota_timer *modem_fota_timer_init(void (*callback)(void *))
+struct sb_fota_os_timer *sb_fota_os_timer_init(void (*callback)(void *))
 {
 	static int next_free;
 
-	if (next_free >= MODEM_FOTA_N_TIMERS) {
+	if (next_free >= SB_FOTA_OS_TIMERS) {
 		return NULL;
 	}
 
-	struct modem_fota_timer *timer = &timers[next_free++];
+	struct sb_fota_os_timer *timer = &timers[next_free++];
 	k_timer_init(&timer->t, (void (*)(struct k_timer *))callback, NULL);
 	return timer;
 }
 
-void modem_fota_timer_start(struct modem_fota_timer *timer, uint64_t delay_ms)
+void sb_fota_os_timer_start(struct sb_fota_os_timer *timer, uint64_t delay_ms)
 {
-	k_timeout_t timeout = ((delay_ms) ? K_MSEC(delay_ms) : K_NO_WAIT);
+	k_timeout_t timeout = (delay_ms ? K_MSEC(delay_ms) : K_NO_WAIT);
 	k_timer_start(&timer->t, timeout, K_NO_WAIT);
 }
 
-void modem_fota_timer_stop(struct modem_fota_timer *timer)
+void sb_fota_os_timer_stop(struct sb_fota_os_timer *timer)
 {
 	k_timer_stop(&timer->t);
 }
 
-bool modem_fota_timer_is_running(struct modem_fota_timer *timer)
+bool sb_fota_os_timer_is_running(struct sb_fota_os_timer *timer)
 {
 	return k_timer_remaining_get(&timer->t) != 0;
 }
 
-int64_t modem_fota_timegm64(const struct tm *time)
+int64_t sb_fota_os_timegm64(const struct tm *time)
 {
 	return timeutil_timegm64(time);
 }
@@ -218,7 +218,7 @@ int64_t modem_fota_timegm64(const struct tm *time)
 
 LOG_MODULE_REGISTER(sb_fota, CONFIG_SB_FOTA_LOG_LEVEL);
 
-void modem_fota_log(int level, const char *fmt, ...)
+void sb_fota_os_log(int level, const char *fmt, ...)
 {
 	if (!IS_ENABLED(CONFIG_LOG_MODE_MINIMAL)) {
 		va_list ap;
@@ -229,12 +229,12 @@ void modem_fota_log(int level, const char *fmt, ...)
 	}
 }
 
-const char *modem_fota_log_strdup(const char *str)
+const char *sb_fota_os_log_strdup(const char *str)
 {
 	return str;
 }
 
-void modem_fota_logdump(const char *str, const void *data, size_t len)
+void sb_fota_os_logdump(const char *str, const void *data, size_t len)
 {
 	if (IS_ENABLED(CONFIG_LOG)) {
 		LOG_HEXDUMP_DBG(data, len, str);
@@ -243,14 +243,14 @@ void modem_fota_logdump(const char *str, const void *data, size_t len)
 
 /* Settings */
 
-static const struct modem_fota_settings *modem_fota_settings;
+static const struct sb_fota_settings *sb_fota_settings;
 
 static int settings_set(const char *name, size_t len,
 		settings_read_cb read_cb, void *cb_arg)
 {
 	void *data;
 
-	for (const struct modem_fota_settings *sp = modem_fota_settings; sp->name; ++sp) {
+	for (const struct sb_fota_settings *sp = sb_fota_settings; sp->name; ++sp) {
 		if (strcmp(name, sp->name)) {
 			continue;
 		}
@@ -258,7 +258,7 @@ static int settings_set(const char *name, size_t len,
 		if (sp->len > 0) {
 			data = sp->ptr;
 		} else {
-			data = modem_fota_os_malloc(len);
+			data = sb_fota_os_malloc(len);
 			*((void**)sp->ptr) = data;
 			if (data == NULL) {
 				return -ENOMEM;
@@ -270,7 +270,7 @@ static int settings_set(const char *name, size_t len,
 		} else {
 			/* if this was allocated, free it */
 			if (sp->len == 0) {
-				modem_fota_os_free(data);
+				sb_fota_os_free(data);
 				*((void**)sp->ptr) = NULL;
 			}
 			return -EINVAL;
@@ -279,30 +279,30 @@ static int settings_set(const char *name, size_t len,
 	return -ENOENT;
 }
 
-void modem_fota_load_settings(const struct modem_fota_settings *settings)
+void sb_fota_os_load_settings(const struct sb_fota_settings *settings)
 {
-	modem_fota_settings = settings;
+	sb_fota_settings = settings;
 
 	settings_subsys_init();
 
 	struct settings_handler my_conf = {
-	    .name = MODEM_FOTA_SETTINGS_PREFIX,
+	    .name = SB_FOTA_SETTINGS_PREFIX,
 	    .h_set = settings_set
 	};
 
 	settings_register(&my_conf);
-	settings_load_subtree(MODEM_FOTA_SETTINGS_PREFIX);
+	settings_load_subtree(SB_FOTA_SETTINGS_PREFIX);
 }
 
 
-void modem_fota_store_setting(const char *name, size_t len, const void *ptr)
+void sb_fota_os_store_setting(const char *name, size_t len, const void *ptr)
 {
 	char fname[128];
-	snprintf(fname, 128, MODEM_FOTA_SETTINGS_PREFIX "/%s", name);
+	snprintf(fname, 128, SB_FOTA_SETTINGS_PREFIX "/%s", name);
 	settings_save_one(fname, ptr, len);
 }
 
-void sb_fota_apply_update(void)
+void sb_fota_os_update_apply(void)
 {
 	FOTA_LOG_INF("Applying modem firmware update...");
 	FOTA_LOG_DBG("Shutting down modem");
