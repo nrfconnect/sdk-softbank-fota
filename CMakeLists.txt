@@ -6,5 +6,4 @@
 
 zephyr_include_directories(include)
 
-add_subdirectory(sample)
 add_subdirectory(lib)
