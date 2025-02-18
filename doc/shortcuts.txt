@@ -1,0 +1,30 @@
+.. ### Versions
+
+.. |addon_version| replace:: 0.0.1
+.. |ncs_version| replace:: 2.8.0
+.. |mfw_version| replace:: 1.3.7
+.. |zboss_version| replace:: 4.1.4.2
+
+.. |NCS| replace:: nRF Connect SDK
+.. |addon| replace:: Softbank FOTA add-on
+
+.. |VSC| replace:: Visual Studio Code
+.. |nRFVSC| replace:: nRF Connect for VS Code extension
+
+.. ### Config shortcuts
+
+.. |config| replace:: See `Configuring and building`_ in the |NCS| documentation for information about how to permanently or temporarily change the configuration.
+
+.. |connect_kit| replace:: Connect the kit to the computer using a USB cable.
+   The kit is assigned a COM port (Windows) or ttyACM device (Linux), which is visible in the Device Manager.
+
+.. |connect_terminal| replace:: Connect to the kit with a terminal emulator (for example, nRF Connect Serial Terminal).
+   See `Testing and optimization`_ in the |NCS| documentation for the required settings and steps.
+
+.. ### Other shortcuts
+
+.. |sysbuild_autoenabled_ncs| replace:: When building `repository applications <Repository application_>`_ in the |addon| which is an `SDK repository <Repository types_>`_, building with sysbuild is `enabled by default <Sysbuild enabled by default_>`_.
+   If you work with out-of-tree `freestanding applications <Freestanding application_>`_, you need to manually pass the ``--sysbuild`` parameter to every build command or `configure west to always use it <Configuring sysbuild usage in west_>`_.
+
+.. |kconfig_search| replace::
+   For details about the Kconfig options mentioned here, see the `Kconfig search`_ in the |NCS| documentation.
