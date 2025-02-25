@@ -1,0 +1,37 @@
+name: Build and test app in NCS docker container
+
+on:
+  pull_request:
+  push:
+
+jobs:
+  build-and-test-in-docker:
+    runs-on: ubuntu-latest
+    container: ghcr.io/nrfconnect/sdk-nrf-toolchain:v2.8.0
+    defaults:
+      run:
+        # Bash shell is needed to set toolchain related environment variables in docker container
+        # It is a workaround for GitHub Actions limitation https://github.com/actions/runner/issues/1964
+        shell: bash
+    steps:
+      - name: Checkout repository with sb_fota sample
+        uses: actions/checkout@v4
+        with:
+          path: sb_fota
+
+      - name: Prepare west project
+        run: |
+          west init -l sb_fota
+          west update -o=--depth=1 -n
+
+      - name: Build firmware
+        working-directory: sb_fota
+        run: |
+          west twister -T sample -v --inline-logs --integration
+
+      - name: Store hex files
+        uses: actions/upload-artifact@v4
+        with:
+          name: built-applications
+          path: sb_fota/twister-out/**/zephyr/zephyr.hex
+
