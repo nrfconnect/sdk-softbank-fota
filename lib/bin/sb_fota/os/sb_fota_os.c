@@ -11,7 +11,6 @@
 #include <zephyr/device.h>
 #include <zephyr/types.h>
 #include <zephyr/random/random.h>
-#include <zephyr/sys/reboot.h>
 #include <zephyr/sys/timeutil.h>
 #include <zephyr/logging/log.h>
 #include <zephyr/logging/log_msg.h>
@@ -55,12 +54,6 @@ int sb_fota_os_sleep(int ms)
 }
 
 /* OS functions */
-
-void sb_fota_os_sys_reset(void)
-{
-	sys_reboot(SYS_REBOOT_COLD);
-	CODE_UNREACHABLE;
-}
 
 uint32_t sb_fota_os_rand_get(void)
 {
@@ -215,30 +208,57 @@ int64_t sb_fota_os_timegm64(const struct tm *time)
 }
 
 /* Logging */
-
 LOG_MODULE_REGISTER(sb_fota, CONFIG_SB_FOTA_LOG_LEVEL);
+
+#if defined(CONFIG_LOG)
+static uint8_t log_level_translate(uint8_t level)
+{
+	switch (level) {
+	case SB_FOTA_OS_LOG_LEVEL_ERR:
+		return LOG_LEVEL_ERR;
+	case SB_FOTA_OS_LOG_LEVEL_WRN:
+		return LOG_LEVEL_WRN;
+	case SB_FOTA_OS_LOG_LEVEL_INF:
+		return LOG_LEVEL_INF;
+	case SB_FOTA_OS_LOG_LEVEL_DBG:
+		return LOG_LEVEL_DBG;
+	default:
+		return LOG_LEVEL_NONE;
+	}
+}
+#endif
 
 void sb_fota_os_log(int level, const char *fmt, ...)
 {
-	if (!IS_ENABLED(CONFIG_LOG_MODE_MINIMAL)) {
-		va_list ap;
-
-		va_start(ap, fmt);
-		log_generic(level, fmt, ap);
-		va_end(ap);
+#if defined(CONFIG_LOG)
+	level = log_level_translate(level);
+	if (level > CONFIG_SB_FOTA_LOG_LEVEL) {
+		return;
 	}
-}
 
-const char *sb_fota_os_log_strdup(const char *str)
-{
-	return str;
-}
+	va_list ap;
+	va_start(ap, fmt);
 
-void sb_fota_os_logdump(const char *str, const void *data, size_t len)
-{
-	if (IS_ENABLED(CONFIG_LOG)) {
-		LOG_HEXDUMP_DBG(data, len, str);
-	}
+#if CONFIG_LOG_MODE_MINIMAL
+		/* Fallback to minimal implementation. */
+		printk("%c: ", z_log_minimal_level_to_char(level));
+		z_log_minimal_vprintk(fmt, ap);
+		printk("\n");
+#else
+		void *source;
+
+		if (IS_ENABLED(CONFIG_LOG_RUNTIME_FILTERING)) {
+			source = (void *)__log_current_dynamic_data;
+		} else {
+			source = (void *)__log_current_const_data;
+		}
+
+		z_log_msg_runtime_vcreate(Z_LOG_LOCAL_DOMAIN_ID, source, level,
+					  NULL, 0, 0, fmt, ap);
+#endif /* CONFIG_LOG_MODE_MINIMAL */
+
+	va_end(ap);
+#endif /* CONFIG_LOG */
 }
 
 /* Settings */
@@ -304,19 +324,19 @@ void sb_fota_os_store_setting(const char *name, size_t len, const void *ptr)
 
 void sb_fota_os_update_apply(void)
 {
-	FOTA_LOG_INF("Applying modem firmware update...");
-	FOTA_LOG_DBG("Shutting down modem");
+	LOG_INF("Applying modem firmware update...");
+	LOG_DBG("Shutting down modem");
 
 	if (fota_download_util_apply_update(DFU_TARGET_IMAGE_TYPE_MODEM_DELTA) == 0) {
-		FOTA_LOG_DBG("Modem update OK");
+		LOG_DBG("Modem update OK");
 	} else {
-		FOTA_LOG_ERR("Modem update failed");
+		LOG_ERR("Modem update failed");
 	}
 
 	int err = lte_lc_connect();
 
 	if (err) {
-		FOTA_LOG_ERR("Connecting to network failed, err %d\n", err);
+		LOG_ERR("Connecting to network failed, err %d", err);
 	}
 }
 
@@ -329,7 +349,7 @@ static void sb_fota_on_modem_init(int ret, void *ctx)
 	if (IS_ENABLED(CONFIG_SB_FOTA_AUTOINIT)) {
 		err = sb_fota_init(NULL);
 		if (err) {
-			FOTA_LOG_ERR("Failed to initialize FOTA client");
+			LOG_ERR("Failed to initialize FOTA client");
 		}
 	}
 }

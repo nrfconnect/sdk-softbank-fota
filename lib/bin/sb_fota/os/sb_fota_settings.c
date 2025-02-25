@@ -12,8 +12,11 @@
 #include <modem/modem_jwt.h>
 #include <modem/modem_info.h>
 #include <zephyr/sys/util_macro.h>
+#include <zephyr/logging/log.h>
 
 #define IMEI_LEN 15
+
+LOG_MODULE_REGISTER(sb_fota_settings, CONFIG_SB_FOTA_LOG_LEVEL);
 
 int sb_fota_settings_cloud_sec_tag_get(void)
 {
@@ -71,11 +74,11 @@ const char *sb_fota_settings_client_id_get(void)
 		int ret;
 		if (IS_ENABLED(CONFIG_SB_FOTA_ID_UUID)) {
 			if ((ret = get_uuid())) {
-				FOTA_LOG_ERR("Failed to read UUID (err %d)", ret);
+				LOG_ERR("Failed to read UUID (err %d)", ret);
 			}
 		} else {
 			if ((ret = get_imei())) {
-				FOTA_LOG_ERR("Failed to read IMEI (err %d)", ret);
+				LOG_ERR("Failed to read IMEI (err %d)", ret);
 			}
 		}
 	}

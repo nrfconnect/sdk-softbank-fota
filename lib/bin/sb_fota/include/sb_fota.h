@@ -38,8 +38,6 @@ enum sb_fota_event {
 	 * device is booted.
 	 */
 	SB_FOTA_EVENT_MODEM_SHUTDOWN,
-	/** Modem FW is now updated, reboot the device to resume network operations. */
-	SB_FOTA_EVENT_REBOOT_PENDING,
 };
 
 /**
@@ -59,9 +57,6 @@ typedef void (*sb_fota_callback_t)(enum sb_fota_event event);
  *
  * If Kconfig value CONFIG_SB_FOTA_AUTOINIT is set, then application is not required to call this
  * function, but might still want to use it for registering the callback.
- *
- * If there is no callback set, then the library automatically reboots the device in case of
- * SB_FOTA_EVENT_REBOOT_PENDING event.
  *
  * @param callback Callback for the application events or NULL for no callback.
  *
