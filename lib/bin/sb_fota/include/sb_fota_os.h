@@ -50,11 +50,6 @@ uint32_t sb_fota_os_uptime_get_32(void);
 int sb_fota_os_sleep(int ms);
 
 /**
- * @brief Reboot system.
- */
-void sb_fota_os_sys_reset(void);
-
-/**
  * @brief Get a random value.
  */
 uint32_t sb_fota_os_rand_get(void);
@@ -123,19 +118,15 @@ bool sb_fota_os_timer_is_running(struct sb_fota_os_timer *timer);
 
 int64_t sb_fota_os_timegm64(const struct tm *time);
 
-#define FOTA_LOG_LEVEL_NONE 0U
-#define FOTA_LOG_LEVEL_ERR  1U
-#define FOTA_LOG_LEVEL_WRN  2U
-#define FOTA_LOG_LEVEL_INF  3U
-#define FOTA_LOG_LEVEL_DBG  4U
+enum sb_fota_os_log_level {
+	SB_FOTA_OS_LOG_LEVEL_NONE,
+	SB_FOTA_OS_LOG_LEVEL_ERR,
+	SB_FOTA_OS_LOG_LEVEL_WRN,
+	SB_FOTA_OS_LOG_LEVEL_INF,
+	SB_FOTA_OS_LOG_LEVEL_DBG,
+};
 
 void sb_fota_os_log(int level, const char *fmt, ...);
-const char *sb_fota_os_log_strdup(const char *str);
-
-#define FOTA_LOG_ERR(...) sb_fota_os_log(FOTA_LOG_LEVEL_ERR, __VA_ARGS__);
-#define FOTA_LOG_WRN(...) sb_fota_os_log(FOTA_LOG_LEVEL_WRN, __VA_ARGS__);
-#define FOTA_LOG_INF(...) sb_fota_os_log(FOTA_LOG_LEVEL_INF, __VA_ARGS__);
-#define FOTA_LOG_DBG(...) sb_fota_os_log(FOTA_LOG_LEVEL_DBG, __VA_ARGS__);
 
 #define SB_FOTA_SETTINGS_PREFIX "sb_fota"
 

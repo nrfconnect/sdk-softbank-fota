@@ -64,9 +64,15 @@ config SB_FOTA_ID_PREFIX
 	  be used on provisioning. Prefix is only appended on IMEI or UUID. Not appended on
 	  client ID changed on runtime API.
 
+config SB_FOTA_LOG
+	bool "Link binary with logs"
+	help
+	  Links the application with the library version capable of emitting logs.
+	  This increases the final size of the application.
+
 module=SB_FOTA
 module-dep=LOG
-module-str=Modem Firmware Over the Air client
+module-str=SoftBank FOTA library
 source "${ZEPHYR_BASE}/subsys/logging/Kconfig.template.log_config"
 
 endif # SB_FOTA
