@@ -29,6 +29,7 @@ In addition to the library itself, this NCS add-on contains a :ref:`sample <sb_f
    integration
    sample
    API_documentation
+   CHANGELOG
 
 Indices and tables
 ==================
