@@ -51,9 +51,9 @@
 			<text x="112.22" y="261.03" class="st2">User Application</text>		</g>
 		<g id="shape114-4" transform="translate(1,-126.507)">
 			<title>Rectangle.114</title>
-			<desc>Softbank FOTA library</desc>
+			<desc>SoftBank FOTA library</desc>
 			<rect x="0" y="224.069" width="311.811" height="66.7287" class="st3"/>
-			<text x="92.23" y="261.03" class="st4">Softbank FOTA library</text>		</g>
+			<text x="92.23" y="261.03" class="st4">SoftBank FOTA library</text>		</g>
 		<g id="shape116-7" transform="translate(1,-95.4331)">
 			<title>Rectangle.116</title>
 			<desc>API (sb_fota.c/h)</desc>

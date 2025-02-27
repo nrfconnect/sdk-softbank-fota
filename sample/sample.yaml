@@ -1,6 +1,6 @@
 sample:
-  description: Softbank FOTA sample
-  name: Softbank FOTA
+  description: SoftBank FOTA sample
+  name: SoftBank FOTA
 tests:
   sample.sb_fota:
     sysbuild: true
@@ -8,9 +8,11 @@ tests:
     integration_platforms:
       - nrf9160dk/nrf9160/ns
       - nrf9161dk/nrf9161/ns
+      - nrf9151dk/nrf9151/ns
     platform_allow:
       - nrf9160dk/nrf9160/ns
       - nrf9161dk/nrf9161/ns
+      - nrf9151dk/nrf9151/ns
     tags:
       - ci_build
       - sysbuild

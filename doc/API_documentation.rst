@@ -7,12 +7,12 @@ API documentation
    :local:
    :depth: 2
 
-Following are the API elements used by the Softbank FOTA library:
+Following are the API elements used by the SoftBank FOTA library:
 
 | Header files: :file:`lib/bin/sb_fota/include`
 | Source files: :file:`lib/bin/sb_fota`
 
-Softbank FOTA library API
+SoftBank FOTA library API
 =========================
 
 .. doxygengroup:: sb_fota
@@ -20,7 +20,7 @@ Softbank FOTA library API
 
 .. _sb_fota_os:
 
-Softbank FOTA OS layer
+SoftBank FOTA OS layer
 ======================
 
 .. doxygengroup:: sb_fota_os
