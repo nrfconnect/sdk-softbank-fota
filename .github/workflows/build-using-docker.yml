@@ -1,3 +1,5 @@
+# Copyright (c) 2025, Nordic Semiconductor ASA
+# SPDX-License-Identifier: LicenseRef-Nordic-5-Clause
 name: Build and test app in NCS docker container
 
 on:
@@ -34,4 +36,3 @@ jobs:
         with:
           name: built-applications
           path: sb_fota/twister-out/**/zephyr/zephyr.hex
-

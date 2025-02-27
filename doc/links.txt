@@ -63,10 +63,11 @@
 .. _`HTTP Client`: https://docs.nordicsemi.com/bundle/ncs-2.8.0/page/zephyr/connectivity/networking/api/http_client.html
 
 .. _`NVS`: https://docs.nordicsemi.com/bundle/ncs-2.8.0/page/zephyr/services/storage/nvs/nvs.html
-.. _`Kernel`: https://docs.nordicsemi.com/bundle/ncs-latest/page/zephyr/kernel/services/index.html
-.. _`PDN`: https://docs.nordicsemi.com/bundle/ncs-latest/page/nrf/libraries/modem/pdn.html
-.. _`Download client`: https://docs.nordicsemi.com/bundle/ncs-latest/page/nrf/libraries/networking/download_client.html
-.. _`AT Monitor`: https://docs.nordicsemi.com/bundle/ncs-latest/page/nrf/libraries/modem/at_monitor.html
+.. _`Kernel`: https://docs.nordicsemi.com/bundle/ncs-2.8.0/page/zephyr/kernel/services/index.html
+.. _`PDN`: https://docs.nordicsemi.com/bundle/ncs-2.8.0/page/nrf/libraries/modem/pdn.html
+.. _`Download client`: https://docs.nordicsemi.com/bundle/ncs-2.8.0/page/nrf/libraries/networking/download_client.html
+.. _`AT Monitor`: https://docs.nordicsemi.com/bundle/ncs-2.8.0/page/nrf/libraries/modem/at_monitor.html
+.. _`AT Parser`: https://docs.nordicsemi.com/bundle/ncs-2.8.0/page/nrf/libraries/modem/at_parser.html
 
 .. ### nRF Connect for Visual Studio Code documentation
 
@@ -93,6 +94,7 @@
 .. _`Pulse Width Modulation (PWM)`: https://docs.nordicsemi.com/bundle/ncs-2.8.0/page/zephyr/hardware/peripherals/pwm.html
 .. _`UART API`: https://docs.nordicsemi.com/bundle/ncs-2.8.0/page/zephyr/hardware/peripherals/uart.html
 .. _`Shields`: https://docs.nordicsemi.com/bundle/ncs-2.8.0/page/zephyr/hardware/porting/shields.html
+.. _`JSON`: https://docs.nordicsemi.com/bundle/zephyr-apis-2.8.0/page/group_json.html
 
 .. _`nrf54l15dk`: https://docs.nordicsemi.com/bundle/ncs-2.8.0/page/zephyr/boards/nordic/nrf54l15dk/doc/index.html
 
@@ -118,7 +120,7 @@
 .. ### Source: nordicsemi.com
 
 .. _`connecting to nRF Cloud`: https://docs.nordicsemi.com/bundle/ncs-2.8.0/page/nrf/libraries/networking/nrf_cloud.html#connecting
-.. _`nRF Cloud`: https://docs.nordicsemi.com/bundle/ncs-latest/page/nrf/libraries/networking/nrf_cloud.html
+.. _`nRF Cloud`: https://docs.nordicsemi.com/bundle/ncs-2.8.0/page/nrf/libraries/networking/nrf_cloud.html
 
 .. _`nRF Connect for Desktop`: https://www.nordicsemi.com/Software-and-Tools/Development-Tools/nRF-Connect-for-desktop
 .. _`Download nRF Connect for Desktop`: https://www.nordicsemi.com/Software-and-Tools/Development-Tools/nRF-Connect-for-desktop/Download#infotabs
@@ -129,7 +131,7 @@
 
 .. _`nRF Toolbox`: https://www.nordicsemi.com/Software-and-Tools/Development-Tools/nRF-Toolbox
 
-.. _`nrfxlib_nrf_modem`: https://docs.nordicsemi.com/bundle/nrf-connect-serial-terminal/page/index.html
+.. _`nrfxlib_nrf_modem`: https://docs.nordicsemi.com/bundle/ncs-2.8.0/page/nrfxlib/nrf_modem/README.html
 
 .. ### Source: devzone.nordicsemi.com
 
