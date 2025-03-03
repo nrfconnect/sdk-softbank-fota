@@ -7,7 +7,7 @@ SoftBank FOTA sample
    :local:
    :depth: 2
 
-The Softbank FOTA sample demonstrates how to run the :ref:`libsb_fota_index` library in an application in order to periodically check / download modem firmware updates.
+The SoftBank FOTA sample demonstrates how to run the :ref:`libsb_fota_index` library in an application in order to periodically check for and download modem firmware updates.
 
 Requirements
 ************
@@ -36,8 +36,8 @@ Overview
 
 Before running this sample, make sure you have provisioned your device to nRF Cloud :ref:`libsb_fota_provisioning`.
 
-The sample connects to LTE network, and will handle dfu events triggered by the Softbank FOTA library.
-Using the modem time, the Softbank FOTA library will calculate when the next check for modem firmware update will happen.
+The sample connects to LTE network, and will handle dfu events triggered by the SoftBank FOTA library.
+Using the modem time, the SoftBank FOTA library will calculate when the next check for modem firmware update will happen.
 
 Configuration
 *************
@@ -91,9 +91,9 @@ After programming the sample and all prerequisites to the development kit, test 
 
 #. Use ``sb_fota_clock_set()`` to set the modem time to trick the update to happen. (Or wait simply wait ~14 days).
 
-   For example, if ``AT+CCLK`` returns ``25/03/04,01:30:40+4``, then use ``app clock`` shell command to set the clock::
+   For example, if ``AT+CCLK`` returns ``25/03/04,01:30:40+04``, then use ``app clock`` shell command to set the clock::
 
-    uart:~$ app clock 25/03/18,10:50:40+4
+    uart:~$ app clock 25/03/18,10:50:40+04
 
 #. Verify that download starts::
 
@@ -120,4 +120,4 @@ It uses the following `sdk-nrfxlib`_ library:
 
 It uses the following |addon|.
 
-* Softbank FOTA library
+* SoftBank FOTA library

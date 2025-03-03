@@ -8,8 +8,8 @@
    :depth: 2
 
 Welcome to the SoftBank FOTA library NCS Add-on.
-The Softbank FOTA library is a small binary library that will periodically the `nRF Connect for Cloud`_ for modem firmware updates.
-If there is an applicable update, the Softbank FOTA library will download and install it.
+The SoftBank FOTA library is a binary library that will periodically check `nRF Connect for Cloud`_ for modem firmware updates.
+If there is an applicable update, the SoftBank FOTA library will download and install it.
 
 In addition to the library itself, this NCS add-on contains a :ref:`sample <sb_fota_sample>` for testing, and instructions for correctly :ref:`provisioning with nRF Cloud <libsb_fota_provisioning>`.
 
@@ -19,7 +19,7 @@ In addition to the library itself, this NCS add-on contains a :ref:`sample <sb_f
 
 
 .. important::
-   As part of Nordics certification with SoftBank Mobile, this Softbank FOTA library **must** be integrated with your application, unless otherwise agreed with you local Nordic or Softbank representatives.
+   To conform with the SoftBank certification, this library **must** be integrated with your application, unless otherwise agreed with your local Nordic or SoftBank representatives.
 
 .. toctree::
    :maxdepth: 1

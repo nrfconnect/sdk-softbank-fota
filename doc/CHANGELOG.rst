@@ -17,7 +17,7 @@ Changes
   * Logs are no longer compiled into the default library. This saves some memory.
   * The verbose library can be used during development phase to ensure that the library is integrated correctly into your application.
 
-* More consistent use of ``Softbank FOTA`` (as opposed to modem FOTA). Renamed events such as ``FOTA_EVENT_DOWNLOADING`` -> ``SB_FOTA_EVENT_DOWNLOADING``
+* More consistent use of ``SoftBank FOTA`` (as opposed to modem FOTA). Renamed events such as ``FOTA_EVENT_DOWNLOADING`` -> ``SB_FOTA_EVENT_DOWNLOADING``
 * The library now schedules work on it's internal queue instead of the syswork queue (this avoids potential blocking of the syswork queue).
 * Removed ``SB_FOTA_EVENT_REBOOT_PENDING``. Reboot is not needed to apply modem update.
 
