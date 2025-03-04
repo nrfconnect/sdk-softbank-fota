@@ -89,15 +89,28 @@ After programming the sample and all prerequisites to the development kit, test 
 
     <inf> sb_fota: Next update check in 14 days, 09:20:10
 
-#. Use ``sb_fota_clock_set()`` to set the modem time to trick the update to happen. (Or wait simply wait ~14 days).
+#. Use ``sb_fota_clock_set()`` to set the modem time to trick the update to happen. (Or simply wait ~14 days).
 
-   For example, if ``AT+CCLK`` returns ``25/03/04,01:30:40+04``, then use ``app clock`` shell command to set the clock::
+   For example, if ``AT+CCLK`` returns ``25/03/04,01:30:40+04``, then use the ``app clock`` shell command to set the clock::
 
     uart:~$ app clock 25/03/18,10:50:40+04
 
 #. Verify that download starts::
 
     SB_FOTA_EVENT_DOWNLOADING
+
+#. When the download has completed, verify that the modem shuts down to apply the update::
+
+    SB_FOTA_EVENT_MODEM_SHUTDOWN
+
+#. After the modem has reinitialized, the library will connect to nRF Cloud to update the status of the update::
+
+    <inf> sb_fota: Modem firmware was updated, updating job
+
+#. Finally, verify that the library schedules a new check in 14 days and goes idle::
+
+    <inf> sb_fota: Next update check in 14 days, 11:05:29
+    <inf> sb_fota: SB_FOTA_EVENT_IDLE
 
 Troubleshooting
 ===============
