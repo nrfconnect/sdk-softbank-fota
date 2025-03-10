@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2025 Nordic Semiconductor ASA
  *
- * SPDX-License-Identifier: LicenseRef-BSD-5-Clause-Nordic
+ * SPDX-License-Identifier: LicenseRef-Nordic-5-Clause
  */
 
 /**
@@ -21,7 +21,6 @@ extern "C" {
 
 /**
  * @brief SoftBank FOTA application events.
- *
  */
 enum sb_fota_event {
 	/** FOTA client starts networking.
@@ -64,6 +63,32 @@ typedef void (*sb_fota_callback_t)(enum sb_fota_event event);
  *           Otherwise, a (negative) error code is returned.
  */
 int sb_fota_init(sb_fota_callback_t callback);
+
+/**
+ * @brief SoftBank FOTA modem functional modes.
+ *
+ * Used to pass on the modem functional mode in @ref sb_fota_on_modem_cfun().
+ * @{
+ */
+/** Minimum functionality mode. */
+#define SB_FOTA_MODEM_MODE_POWER_OFF   0
+/** Any valid functionality mode other than @c SB_FOTA_MODEM_MODE_POWER_OFF. */
+#define SB_FOTA_MODEM_MODE_POWER_ON    1
+/** @} */
+
+/**
+ * SoftBank FOTA library modem functional mode handler.
+ *
+ * @param[in] mode Modem functional mode.
+ *
+ * This function must be called whenever modem functional mode is changed.
+ *
+ * @note This is already implemented in `sb_fota_os.c`.
+ *
+ * @retval 0 If the operation was successful.
+ *           Otherwise, a (negative) error code is returned.
+ */
+int sb_fota_on_modem_cfun(int mode);
 
 /**
  * @brief Sets current time for the SoftBank FOTA client and modem clock.

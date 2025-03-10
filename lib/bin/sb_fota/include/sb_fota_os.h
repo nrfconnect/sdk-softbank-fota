@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2025 Nordic Semiconductor ASA
  *
- * SPDX-License-Identifier: LicenseRef-BSD-5-Clause-Nordic
+ * SPDX-License-Identifier: LicenseRef-Nordic-5-Clause
  */
 
 /**
@@ -20,104 +20,183 @@
 #include <time.h>
 
 /**
- * @brief Allocate memory.
+ * @brief Allocate memory on the heap.
+ *
+ * @param[in] size Size of the memory to be allocated.
+ *
+ * @return A pointer to the allocated memory buffer or @c NULL if allocation failed.
  */
 void *sb_fota_os_malloc(size_t size);
 
 /**
- * @brief Allocate memory and zero it.
+ * @brief Allocate memory on the heap and zero it.
+ *
+ * @param[in] nmemb Number of elements in the requested array
+ * @param[in] size  Size of each array element.
+ *
+ * @return A pointer to the allocated memory buffer or @c NULL if allocation failed.
  */
 void *sb_fota_os_calloc(size_t nmemb, size_t size);
 
 /**
- * @brief Free memory.
+ * @brief Free memory allocated on the heap
+ *
+ * @param[in] ptr Pointer to the memory to be freed.
  */
 void sb_fota_os_free(void *ptr);
 
 /**
- * @brief Get uptime, in milliseconds.
+ * @brief Get system uptime, in milliseconds.
+ *
+ * @return Uptime in milliseconds.
  */
 int64_t sb_fota_os_uptime_get(void);
 
 /**
- * @brief Get uptime, in milliseconds.
+ * @brief Get system uptime (32-bit version), in milliseconds.
+ *
+ * @return Uptime in milliseconds.
  */
 uint32_t sb_fota_os_uptime_get_32(void);
 
 /**
- * @brief Put a thread to a sleep.
+ * @brief Convert broken-down time to a POSIX epoch offset in seconds.
+ *
+ * @param[in] time Pointer to broken down time.
+ *
+ * @return Time converted to the POSIX epoch time scale.
+ */
+int64_t sb_fota_os_timegm64(const struct tm *time);
+
+/**
+ * @brief Put a thread to sleep for a specific amount of time.
+ *
+ * @param[in] ms Timeout in milliseconds.
+ *
+ * @retval zero on success or negative error code on failure.
  */
 int sb_fota_os_sleep(int ms);
 
 /**
  * @brief Get a random value.
+ *
+ * @return 32-bit random value.
  */
 uint32_t sb_fota_os_rand_get(void);
 
-#define SB_FOTA_OS_SEMAPHORE_COUNT 4
-
-/** Opaque type for OS semaphore */
-struct sb_fota_os_sem;
+/** Generic type for OS semaphore. */
+typedef int sb_fota_os_sem_t;
 
 /**
- * @brief Allocate a semaphore from OS
+ * @brief Allocate a semaphore from OS.
  *
- * @return pointer to allocated semaphore or NULL on failure.
+ * @return pointer to the allocated semaphore or NULL on failure.
  */
-struct sb_fota_os_sem *sb_fota_os_sem_alloc(void);
+sb_fota_os_sem_t *sb_fota_os_sem_alloc(void);
 
 /**
  * @brief Give a semaphore.
  *
- * @param sem pointer to a taken semaphore.
+ * @param[in] sem Pointer to the taken semaphore.
  */
-void sb_fota_os_sem_give(struct sb_fota_os_sem *sem);
+void sb_fota_os_sem_give(sb_fota_os_sem_t *sem);
 
 /**
  * @brief Take a semaphore.
  *
- * @param sem pointer to semaphore
- * @param timeout_ms timeout in milliseconds, or negative if call can block forever.
- * @return zero on success or negative error code on failure.
+ * @param[in] sem        Pointer to the semaphore
+ * @param[in] timeout_ms Timeout in milliseconds, or negative on infinite timeout.
+ *
+ * @retval zero on success or negative error code on failure.
  */
-int sb_fota_os_sem_take(struct sb_fota_os_sem *sem, int timeout_ms);
+int sb_fota_os_sem_take(sb_fota_os_sem_t *sem, int timeout_ms);
 
 /**
  * @brief Reset semaphore count to zero.
  *
- * @param sem pointer to a semaphore.
+ * @param[in] sem Pointer to the semaphore.
  */
-void sb_fota_os_sem_reset(struct sb_fota_os_sem *sem);
+void sb_fota_os_sem_reset(sb_fota_os_sem_t *sem);
 
-#define SB_FOTA_OS_WORK_COUNT 6
-#define SB_FOTA_OS_DELAYED_WORK_COUNT 1
-
-/** Generic work callback type */
+/** Generic work callback type. */
 typedef void (*sb_fota_os_work_cb)(void *);
 
-/** Opaque work type */
-struct sb_fota_os_work;
+/** Generic work type. */
+typedef int sb_fota_os_work_t;
 
-/** Opaque delayed work type */
-struct sb_fota_os_delayed_work;
+/** Generic delayed work type. */
+typedef int sb_fota_os_delayed_work_t;
 
-struct sb_fota_os_work *sb_fota_os_work_init(sb_fota_os_work_cb cb);
-void sb_fota_os_work_schedule(struct sb_fota_os_work *work);
-struct sb_fota_os_delayed_work *sb_fota_os_delayed_work_init(sb_fota_os_work_cb cb);
-void sb_fota_os_delayed_work_schedule(struct sb_fota_os_delayed_work *work, int delay_ms);
+/**
+ * @brief Initialize the next available work structure.
+ *
+ * @param[in] cb The handler to be invoked by the work item.
+ *
+ * @return pointer to the initialized work structure or NULL if no work items available.
+ */
+sb_fota_os_work_t *sb_fota_os_work_init(sb_fota_os_work_cb cb);
 
-#define SB_FOTA_OS_TIMERS 2
+/**
+ * @brief Submit a work item on the library's work queue.
+ *
+ * @param[in] work Work item to be submitted.
+ */
+void sb_fota_os_work_schedule(sb_fota_os_work_t *work);
 
-/** Opaque timer type */
-struct sb_fota_os_timer;
+/**
+ * @brief Initialize the next available delayed work structure.
+ *
+ * @param[in] cb The handler to be invoked by the delayed work item.
+ *
+ * @return pointer to the initialized delayed work structure or NULL if no work items available.
+ */
+sb_fota_os_delayed_work_t *sb_fota_os_delayed_work_init(sb_fota_os_work_cb cb);
 
-struct sb_fota_os_timer *sb_fota_os_timer_init(sb_fota_os_work_cb cb);
-void sb_fota_os_timer_start(struct sb_fota_os_timer *timer, uint64_t delay_ms);
-void sb_fota_os_timer_stop(struct sb_fota_os_timer *timer);
-bool sb_fota_os_timer_is_running(struct sb_fota_os_timer *timer);
+/**
+ * @brief Schedule a work item on the library's work queue.
+ *
+ * @param[in] work     Work item to be scheduled.
+ * @param[in] delay_ms Delay before submitting the task in milliseconds.
+ */
+void sb_fota_os_delayed_work_schedule(sb_fota_os_delayed_work_t *work, int delay_ms);
 
-int64_t sb_fota_os_timegm64(const struct tm *time);
+/** Generic timer type. */
+typedef int sb_fota_os_timer_t;
 
+/**
+ * @brief Initialize a timer.
+ *
+ * @param[in] cb Callback to be invoked each time the timer expires.
+ *
+ * @return Pointer to the initialized timer.
+ */
+sb_fota_os_timer_t *sb_fota_os_timer_init(sb_fota_os_work_cb cb);
+
+/**
+ * @brief Start a timer.
+ *
+ * @param[in] timer    Pointer to the timer to be started.
+ * @param[in] delay_ms Timer duration in milliseconds.
+ */
+void sb_fota_os_timer_start(sb_fota_os_timer_t *timer, uint64_t delay_ms);
+
+/**
+ * @brief Stop a timer.
+ *
+ * @param[in] timer Pointer to the timer to be stopped.
+ */
+void sb_fota_os_timer_stop(sb_fota_os_timer_t *timer);
+
+/**
+ * @brief Check if a timer is running.
+ *
+ * @param[in] timer Pointer to the timer.
+ *
+ * @retval true if the timer is running, false otherwise.
+ */
+bool sb_fota_os_timer_is_running(sb_fota_os_timer_t *timer);
+
+/** Generic logging levels. */
 enum sb_fota_os_log_level {
 	SB_FOTA_OS_LOG_LEVEL_NONE,
 	SB_FOTA_OS_LOG_LEVEL_ERR,
@@ -126,71 +205,77 @@ enum sb_fota_os_log_level {
 	SB_FOTA_OS_LOG_LEVEL_DBG,
 };
 
+/**
+ * @brief Generic logging procedure.
+ *
+ * @param level Log level.
+ * @param fmt Format string.
+ * @param ... Varargs.
+ */
 void sb_fota_os_log(int level, const char *fmt, ...);
 
 #define SB_FOTA_SETTINGS_PREFIX "sb_fota"
 
-/** Structure used to load settings from persistent storage */
+/** Structure used to load settings from persistent storage. */
 struct sb_fota_settings {
 	const char *name; /** Name of the setting */
 	size_t len;       /** Size of data, or zero for variable lenght data like strings */
 	void *ptr;	  /** Pointer to runtime storage. Strings are allocated and ptr stored here. */
 };
 
-/** Load array of settings from persistent storage.
- *  Settings should be given as an array that ends with element where name is NULL.
+/**
+ * @brief Load the array of settings from persistent storage.
+ *
+ * Settings must be given as an array that ends with an element whose name is NULL.
+ *
+ * @param[in] settings Array to load stored settings into.
  */
 void sb_fota_os_load_settings(const struct sb_fota_settings *settings);
 
-/** Store one settings value.
- * SB_FOTA_SETTINGS_PREFIX is automatically added to the name.
+/**
+ * @brief Store a setting value in persistent storage.
+ *
+ * @c SB_FOTA_SETTINGS_PREFIX is automatically added to the name.
+ *
+ * @param[in] name Null-terminated name of the setting to be stored.
+ * @param[in] len  Length of the setting value to be stored.
+ * @param[in] ptr  Value of the setting to be stored.
  */
 void sb_fota_os_store_setting(const char *name, size_t len, const void *ptr);
 
-/** Apply modem FW update */
+/**
+ * @brief Apply the modem firmware update and restore the LTE connection.
+ */
 void sb_fota_os_update_apply(void);
 
+/**
+ * @brief Activate the LTE service in the modem.
+ *
+ * @retval zero on success or negative error code on failure.
+ */
+int sb_fota_os_lte_online(void);
+
+/**
+ * @brief Deactivate the LTE service in the modem.
+ *
+ * @retval zero on success or negative error code on failure.
+ */
+int sb_fota_os_lte_offline(void);
+
+/**
+ * @brief Request to set LTE-M (Cat-M1) as the preferred bearer in the modem.
+ *
+ * @retval zero on success or negative error code on failure.
+ */
+int sb_fota_os_lte_mode_request_ltem(void);
+
+/**
+ * @brief Request to restore the application-preferred bearer in the modem.
+ *
+ * @retval zero on success or negative error code on failure.
+ */
+int sb_fota_os_lte_mode_restore(void);
+
 /** @} */
-
-#ifdef UNITTESTING
-/* For unittesting purposes, I need dummy types of every opaque struct */
-struct sb_fota_os_sem
-{
-	int val;
-};
-struct sb_fota_os_work
-{
-	int val;
-};
-struct sb_fota_os_delayed_work
-{
-	int val;
-};
-struct sb_fota_os_timer
-{
-	int val;
-};
-#endif
-
-/* Enums */
-enum modem_reg_status {
-	MODEM_REG_STATUS_NOT_REGISTERED,
-	MODEM_REG_STATUS_HOME,
-	MODEM_REG_STATUS_ROAMING
-};
-
-enum modem_lte_mode {
-	MODEM_LTE_MODE_M = 7,
-	MODEM_LTE_MODE_NBIOT = 9
-};
-
-#ifdef CONFIG_SB_FOTA_INCLUDE_DEBUG_INFORMATION
-int get_lte_mode(void);
-bool get_lte_active_status(void);
-bool get_rrc_idle_status(void);
-int get_reg_status(void);
-struct sb_fota_os_timer *get_active_timer(void);
-struct sb_fota_os_work *get_work(void);
-#endif
 
 #endif /* SB_FOTA_OS_H_ */

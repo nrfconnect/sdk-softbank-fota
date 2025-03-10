@@ -1,8 +1,9 @@
 #
-# Copyright (c) 2025 Nordic Semiconductor
+# Copyright (c) 2025 Nordic Semiconductor ASA
 #
 # SPDX-License-Identifier: LicenseRef-Nordic-5-Clause
 #
+
 if(CONFIG_FPU)
   if(CONFIG_FP_HARDABI)
     set(float_dir hard-float)
