@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2025 Nordic Semiconductor ASA
  *
- * SPDX-License-Identifier: LicenseRef-BSD-5-Clause-Nordic
+ * SPDX-License-Identifier: LicenseRef-Nordic-5-Clause
  */
 
 /**
@@ -40,7 +40,7 @@ const char *sb_fota_settings_client_id_get(void);
  *
  * If not set, default IMEI or UUID is used depending on the Kconfig option.
  *
- * @param id Client identifier string, maximum NRF_DEVICE_UUID_STR_LEN characters.
+ * @param id Client identifier string, maximum @c NRF_DEVICE_UUID_STR_LEN characters.
  */
 void sb_fota_settings_client_id_set(const char *id);
 

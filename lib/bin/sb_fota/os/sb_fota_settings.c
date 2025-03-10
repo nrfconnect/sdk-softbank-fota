@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2025 Nordic Semiconductor ASA
  *
- * SPDX-License-Identifier: LicenseRef-BSD-5-Clause-Nordic
+ * SPDX-License-Identifier: LicenseRef-Nordic-5-Clause
  */
 
 #include "sb_fota_settings.h"
@@ -51,7 +51,7 @@ static int get_uuid(void)
 static int get_imei(void)
 {
 	int ret;
-	char imei[IMEI_LEN + sizeof("\r\nOK\r\n")];
+	char imei[IMEI_LEN];
 
 	sb_fota_client_id[0] = '\0';
 	ret = modem_info_string_get(MODEM_INFO_IMEI, imei, sizeof(imei));
