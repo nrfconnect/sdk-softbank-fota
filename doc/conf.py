@@ -12,7 +12,7 @@ import sys
 project = 'Softbank FOTA'
 copyright = '2025, Nordic Semiconductor'
 author = 'Nordic Semiconductor'
-release = '0.0.1'
+release = '2.8.0'
 
 # Paths
 

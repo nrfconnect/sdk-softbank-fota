@@ -219,7 +219,7 @@ void sb_fota_os_log(int level, const char *fmt, ...);
 /** Structure used to load settings from persistent storage. */
 struct sb_fota_settings {
 	const char *name; /** Name of the setting */
-	size_t len;       /** Size of data, or zero for variable lenght data like strings */
+	size_t len;       /** Size of data, or zero for variable length data like strings */
 	void *ptr;	  /** Pointer to runtime storage. Strings are allocated and ptr stored here. */
 };
 

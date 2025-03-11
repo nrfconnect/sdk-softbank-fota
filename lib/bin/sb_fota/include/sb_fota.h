@@ -42,7 +42,7 @@ enum sb_fota_event {
 /**
  * @brief SoftBank FOTA application callback function.
  *
- * See also @ref sb_fota_event
+ * Also see @ref sb_fota_event.
  *
  * @param event Event ID.
  */

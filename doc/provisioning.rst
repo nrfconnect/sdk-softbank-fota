@@ -8,20 +8,24 @@ Provisioning
    :depth: 2
 
 Before using the SoftBank FOTA library with `nRF Cloud`_, you must provision the device.
-The modem allows a device to issue `JSON Web Tokens (JWT) <JSON Web Token (JWT)_>`_ at run time that are signed with a public and private key pair.
-This key pair must be generated beforehand, and the public key must be provisioned to nRF Cloud.
+The modem allows a device to issue `JSON Web Tokens (JWT) <JSON Web Token (JWT)_>`_ at runtime that are signed with a public and private key pair.
+You must generate this key pair beforehand, and the public key must be provisioned to nRF Cloud.
+
+Prerequisites
+*************
+
+Before you start provisioning, make sure that the following prerequisites are fulfilled:
+
+* `nRF Connect SDK is installed <Installing the nRF Connect SDK>`_.
+* `nRF Cloud utils`_ is installed in :file:`~/ncs/nrf_cloud_utils`.
+* You have an `nRF Cloud <nRF Connect for Cloud_>`_ account.
 
 Provisioning by certificate
-===========================
+***************************
 
 The following section refers to the APIs and procedures from the `nRF Cloud Utilities documentation`_.
-The section makes the following assumptions:
 
-* NCS is installed in ~/ncs
-* nRF Cloud utils is installed in ~/ncs/nrf_cloud_utils
-* You have an account at nRF Cloud.
-
-1. Make sure the required python packages are installed
+1. Make sure the required python packages are installed:
 
    .. code-block::
 
@@ -29,13 +33,13 @@ The section makes the following assumptions:
      pip install -r requirements.txt
 
 
-#. Copy the API_Key from the nRF Cloud User Account page
+#. Copy the API_Key from the nRF Cloud User Account page:
 
    .. code-block::
 
      export API_KEY="aabbccddeeff00112233445566778899aabbccdd"
 
-#. Create certificates
+#. Create certificates.
 
    .. note::
       Only do this once (or remove the old certificates if you create new ones).
@@ -44,7 +48,8 @@ The section makes the following assumptions:
 
      python3 create_ca_cert.py -c NO -o "My Company" -p ./my_ca -f my_company-
 
-#. Provision each device. Here we use default value of ``CONFIG_SB_FOTA_JWT_SECURITY_TAG`` (50).
+#. Provision each device.
+   Here, the default value of the ``CONFIG_SB_FOTA_JWT_SECURITY_TAG`` Kconfig option ``50``, is used.
 
    .. code-block::
 
@@ -61,9 +66,8 @@ The section makes the following assumptions:
 
      python3 nrf_cloud_onboard.py --apikey $API_KEY --csv onboard.csv
 
-
-You can now proceed to test that the provisioning was successfull by using the :ref:`sb_fota_sample`
+You can now proceed to test that the provisioning was successful by using the :ref:`sb_fota_sample`.
 
 .. note::
    As the device uses only JWT and a keypair to authenticate, you do not need to provision that certificate back to the device.
-   Similarly, nRF Cloud will extract the public key from a certificate when it verifies the JWT.
+   Similarly, nRF Cloud extracts the public key from a certificate when it verifies the JWT.

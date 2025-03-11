@@ -17,6 +17,8 @@
 .. _`Programming an application`: https://docs.nordicsemi.com/bundle/ncs-2.8.0/page/nrf/app_dev/programming.html
 .. _`Secure bootloader chain`: https://docs.nordicsemi.com/bundle/ncs-2.8.0/page/nrf/app_dev/bootloaders_dfu/mcuboot_nsib/bootloader.html
 .. _`Configuring devicetree`: https://docs.nordicsemi.com/bundle/ncs-2.8.0/page/nrf/app_dev/config_and_build/hardware/index.html
+.. _`Serial LTE modem`: https://docs.nordicsemi.com/bundle/ncs-2.8.0/page/nrf/applications/serial_lte_modem/README.html
+.. _`Trusted Firmware-M`: https://docs.nordicsemi.com/bundle/ncs-latest/page/nrf/security/tfm/tfm.html#ug-tfm
 
 .. _`Developing with nRF52 Series`: https://docs.nordicsemi.com/bundle/ncs-2.8.0/page/nrf/app_dev/device_guides/nrf52/index.html
 .. _`Developing with nRF53 Series`: https://docs.nordicsemi.com/bundle/ncs-2.8.0/page/nrf/app_dev/device_guides/nrf53/index.html
@@ -57,6 +59,7 @@
 .. _`LTE Link Control`: https://docs.nordicsemi.com/bundle/ncs-2.8.0/page/nrf/libraries/modem/lte_lc.html
 .. _`Modem Information`: https://docs.nordicsemi.com/bundle/ncs-2.8.0/page/nrf/libraries/modem/modem_info.html
 .. _`Modem JWT`: https://docs.nordicsemi.com/bundle/ncs-2.8.0/page/nrf/libraries/modem/modem_info.html
+.. _`AT shell`: https://docs.nordicsemi.com/bundle/ncs-2.8.0/page/nrf/libraries/modem/at_shell.html
 
 .. _`Sending traces over UART on an nRF91 Series DK`: https://docs.nordicsemi.com/bundle/ncs-2.8.0/page/nrf/libraries/modem/nrf_modem_lib/nrf_modem_lib_trace.html#sending_traces_over_uart_on_an_nrf91_series_dk
 
@@ -141,6 +144,7 @@
 
 .. _`sdk-nrfxlib`: https://github.com/nrfconnect/sdk-nrfxlib
 .. _`nRF Cloud JSON protocol schemas`: https://github.com/nRFCloud/application-protocols
+.. _`nRF Cloud Utils`: https://github.com/nRFCloud/utils
 .. _`device_credentials_installer.py`: https://github.com/nRFCloud/utils/blob/master/python/modem-firmware-1.3%2B/device_credentials_installer.py
 .. _`nrf_cloud_onboard.py`: https://github.com/nRFCloud/utils/blob/master/python/modem-firmware-1.3%2B/README.md#nrf-cloud-device-onboarding
 .. _`nRF Cloud Utilities Create CA Cert`: https://github.com/nRFCloud/utils/blob/master/python/modem-firmware-1.3%2B/README.md#create-ca-cert
