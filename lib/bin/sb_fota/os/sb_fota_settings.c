@@ -28,7 +28,7 @@ int sb_fota_settings_jwt_sec_tag_get(void)
 	return CONFIG_SB_FOTA_JWT_SECURITY_TAG;
 }
 
-static char sb_fota_client_id[NRF_DEVICE_UUID_STR_LEN + sizeof(CONFIG_SB_FOTA_ID_PREFIX)];
+static char sb_fota_client_id[SB_FOTA_CLIENT_ID_LEN];
 
 static int get_uuid(void)
 {
