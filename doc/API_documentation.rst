@@ -1,4 +1,4 @@
-.. _liblwm2m_api:
+.. _sb_fota_api:
 
 API documentation
 #################
@@ -13,7 +13,7 @@ Following are the API elements used by the SoftBank FOTA library:
 | Source files: :file:`lib/bin/sb_fota`
 
 SoftBank FOTA library API
-=========================
+*************************
 
 .. doxygengroup:: sb_fota
    :members:
@@ -21,7 +21,13 @@ SoftBank FOTA library API
 .. _sb_fota_os:
 
 SoftBank FOTA OS layer
-======================
+**********************
 
 .. doxygengroup:: sb_fota_os
+   :members:
+
+Softbank FOTA build-time settings
+*********************************
+
+.. doxygengroup:: sb_fota_settings
    :members:
