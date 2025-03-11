@@ -258,31 +258,19 @@ static const struct sb_fota_settings *sb_fota_settings;
 static int settings_set(const char *name, size_t len,
 		settings_read_cb read_cb, void *cb_arg)
 {
-	void *data;
-
 	for (const struct sb_fota_settings *sp = sb_fota_settings; sp->name; ++sp) {
 		if (strcmp(name, sp->name)) {
 			continue;
 		}
-		/* Do I need to allocate the storage? */
-		if (sp->len > 0) {
-			data = sp->ptr;
-		} else {
-			data = sb_fota_os_malloc(len);
-			*((void**)sp->ptr) = data;
-			if (data == NULL) {
-				return -ENOMEM;
-			}
+
+		if (len > sp->len) {
+			LOG_ERR("Failed loading \"%s\" from settings, value too long", name);
+			return -EINVAL;
 		}
 
-		if (read_cb(cb_arg, data, len) > 0) {
+		if (read_cb(cb_arg, sp->ptr, len) > 0) {
 			return 0;
 		} else {
-			/* if this was allocated, free it */
-			if (sp->len == 0) {
-				sb_fota_os_free(data);
-				*((void**)sp->ptr) = NULL;
-			}
 			return -EINVAL;
 		}
 	}

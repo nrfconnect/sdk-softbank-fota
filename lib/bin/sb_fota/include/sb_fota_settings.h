@@ -14,6 +14,8 @@
 #ifndef SB_FOTA_SETTINGS_H
 #define SB_FOTA_SETTINGS_H
 
+#define SB_FOTA_CLIENT_ID_LEN  (NRF_DEVICE_UUID_STR_LEN + sizeof(CONFIG_SB_FOTA_ID_PREFIX))
+
 /**
  * @brief Get sec_tag for cloud TLS communication.
  *
