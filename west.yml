@@ -8,6 +8,8 @@ manifest:
   remotes:
     - name: ncs
       url-base: https://github.com/nrfconnect
+    - name: nRFCloud
+      url-base: https://github.com/nRFCloud
 
   projects:
     - name: nrf
@@ -15,3 +17,7 @@ manifest:
       repo-path: sdk-nrf
       revision: v2.8.0
       import: true
+    - name: nrf_cloud_utils
+      remote: nRFCloud
+      repo-path: utils
+      revision: 13378ebe0f7d7ad9da2678086eb19673b988c275

@@ -17,7 +17,6 @@ Prerequisites
 Before you start provisioning, make sure that the following prerequisites are fulfilled:
 
 * `nRF Connect SDK is installed <Installing the nRF Connect SDK>`_.
-* `nRF Cloud utils`_ is installed in :file:`~/ncs/nrf_cloud_utils`.
 * You have an `nRF Cloud <nRF Connect for Cloud_>`_ account.
 
 Provisioning by certificate
@@ -25,10 +24,12 @@ Provisioning by certificate
 
 The following section refers to the APIs and procedures from the `nRF Cloud Utilities documentation`_.
 
-1. Make sure the required python packages are installed:
+1. Make sure that `nRF Cloud utils`_ and its required python packages are installed:
 
    .. code-block::
 
+     west config manifest.path sdk-softbank-fota
+     west update
      cd ~ncs/nrf_cloud_utils/python/modem-firmware-1.3+/
      pip install -r requirements.txt
 
