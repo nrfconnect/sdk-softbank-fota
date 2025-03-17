@@ -47,8 +47,8 @@ Configuration
 Configuration options
 =====================
 
-During development, it is recommended to see when the next update is scheduled, you can use the verbose version of the library (``CONFIG_SB_FOTA_LOG = y``).
-For production, it is recommended to use the non-verbose version of the library (``CONFIG_SB_FOTA_LOG = n``), in order to save memory.
+During development, it is recommended to use the verbose version of the library (``CONFIG_SB_FOTA_LOG=y``) in order to be able to see when the next update is scheduled.
+For production, it is recommended to use the non-verbose version of the library (``CONFIG_SB_FOTA_LOG=n``), in order to save memory.
 
 Configuration files
 ===================
@@ -64,11 +64,11 @@ To configure modem trace output, see `Sending traces over UART on an nRF91 Serie
 Building and running
 ********************
 
-This sample can be found under the ``samples`` folder in the |addon| structure.
+This sample can be found under the ``sample`` folder in the |addon| structure.
 
 You can build this sample as a firmware image for a board target with the \*/ns variant (see the Requirements section above).
 In such cases, the sample has Cortex-M Security Extensions (CMSE) enabled and separates the firmware between Non-Secure Processing Environment (NSPE) and Secure Processing Environment (SPE).
-Because of this, it automatically includes the Trusted Firmware-M (TF-M).
+Because of this, it automatically includes Trusted Firmware-M (TF-M).
 
 To build the sample, follow the instructions in `Building an application`_ for your preferred building environment. See also `Programming an application`_ for programming steps and `Testing and optimization`_ for general information about testing and debugging in the nRF Connect SDK.
 
@@ -116,13 +116,13 @@ After programming the sample and all prerequisites to the development kit, test 
 Troubleshooting
 ===============
 
-If you do not see any output log such as "... Next update check in..." and only see "SoftBank FOTA client started", check that you have linked the alternative verbose library ``CONFIG_SB_FOTA_LOG = y``.
+If you do not see any output logs such as "... Next update check in..." and only see "SoftBank FOTA client started", check that you have linked the verbose library ``CONFIG_SB_FOTA_LOG = y``.
 By default, the library does not use LOG.
 
 Dependencies
 ************
 
-It uses the following `sdk-nrfxlib`_ library:
+This sample uses the following `sdk-nrfxlib`_ library:
 
 * `Modem library <nrfxlib_nrf_modem_>`_
 

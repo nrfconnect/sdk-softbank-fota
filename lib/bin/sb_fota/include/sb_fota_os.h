@@ -7,7 +7,7 @@
 /**
  * @file sb_fota_os.h
  *
- * @defgroup sb_fota_os Softbank FOTA OS layer
+ * @defgroup sb_fota_os SoftBank FOTA OS layer
  * @{
  */
 

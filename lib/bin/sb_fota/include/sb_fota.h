@@ -7,8 +7,8 @@
 /**
  * @file sb_fota.h
  *
- * @brief Public APIs for the Softbank FOTA client.
- * @defgroup sb_fota Softbank FOTA client
+ * @brief Public APIs for the SoftBank FOTA client.
+ * @defgroup sb_fota SoftBank FOTA client
  * @{
  */
 

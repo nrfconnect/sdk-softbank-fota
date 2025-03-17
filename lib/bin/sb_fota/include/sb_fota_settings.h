@@ -7,7 +7,7 @@
 /**
  * @file sb_fota_settings.h
  *
- * @defgroup sb_fota_settings Softbank FOTA build time settings
+ * @defgroup sb_fota_settings SoftBank FOTA build time settings
  * @{
  */
 
