@@ -22,14 +22,14 @@ The sample supports the following development kits:
      - PCA
      - Board name
      - Board target
-   * - nRF9160 DK
+   * - `nRF9160 DK <Developing with nRF91 Series_>`_
      - PCA10090
-     - nrf9160dk
-     - nrf9160dk/nrf9160/ns
-   * - nRF9151 DK
+     - `nrf9160dk`_
+     - ``nrf9160dk/nrf9160/ns``
+   * - `nRF9151 DK <Developing with nRF91 Series_>`_
      - PCA10171
-     - nrf9151dk
-     - nrf9151dk/nrf9151/ns
+     - `nrf9151dk`_
+     - ``nrf9151dk/nrf9151/ns``
 
 Overview
 ********
