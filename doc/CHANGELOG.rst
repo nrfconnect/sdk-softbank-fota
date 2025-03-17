@@ -3,10 +3,10 @@
 Changelog
 #########
 
-FOTA library and sample applications for SoftBank.
+FOTA library and sample application for SoftBank.
 All notable changes to this project are documented in this file.
 
-For a full list of Softbank FOTA add-on releases, related nRF Connect SDK, modem firmware versions, and supported REST API host, view the following table:
+For a full list of SoftBank FOTA add-on releases, related nRF Connect SDK, modem firmware versions, and supported REST API host, view the following table:
 
 +-------------------+------------------+--------------------------+------------------------------------+
 | |addon| version   | |NCS| version    | Modem firmware version   | REST API host                      |
@@ -46,7 +46,7 @@ Changes
   Renamed events such as ``FOTA_EVENT_DOWNLOADING`` to ``SB_FOTA_EVENT_DOWNLOADING``
 * The library now schedules work on its internal queue instead of the syswork queue (this avoids potential blocking of the syswork queue).
 * Removed ``SB_FOTA_EVENT_REBOOT_PENDING``.
-  Reboot is not needed to apply the modem update.
+  Rebooting is not needed to apply the modem update.
 * Removed the dependency on the `LTE Link Control`_ library.
   This makes it simpler to integrate the SoftBank FOTA library into applications that do not use the Link Controller library by default, such as the `Serial LTE modem`_ application.
 
@@ -117,4 +117,3 @@ Changes
 =======
 
 * First release that is used to complete SBM IOT certification test.
-

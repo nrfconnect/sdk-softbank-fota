@@ -26,7 +26,7 @@ SoftBank FOTA OS layer
 .. doxygengroup:: sb_fota_os
    :members:
 
-Softbank FOTA build-time settings
+SoftBank FOTA build-time settings
 *********************************
 
 .. doxygengroup:: sb_fota_settings

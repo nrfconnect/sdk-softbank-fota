@@ -7,7 +7,7 @@
    :local:
    :depth: 2
 
-SoftBank FOTA library is a binary library that has been developed as an |NCS| add-on.
+The SoftBank FOTA library is a binary library that has been developed as an |NCS| add-on.
 This library periodically checks `nRF Connect for Cloud`_ for modem firmware updates.
 If there is an applicable update, the SoftBank FOTA library downloads and installs it.
 
